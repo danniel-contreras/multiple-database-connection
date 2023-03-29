@@ -13,10 +13,13 @@ export class UserServices {
      * @returns The result of the query.
      */
     async findAllUsers(): Promise<Model<UserI>[]> {
-
         const Users = await this.User.User.findAll({ attributes: { exclude: ["password"] } });
         return Users
+    }
 
+    async findByEmail(email: string) {
+        const User = await this.User.User.findOne({ where: { email } })
+        return User?.dataValues
     }
 
     /**
