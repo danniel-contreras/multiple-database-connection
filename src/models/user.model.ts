@@ -2,6 +2,7 @@ import { STRING, INTEGER, Model, ModelStatic } from "sequelize";
 
 import { DatabaseConnection } from "./db.model";
 import { UserI } from '../types/user.types';
+import { User } from '../entities/user.entity';
 
 export class UserModel {
     constructor(database: string) {
@@ -42,10 +43,13 @@ export class UserModel {
             deletedAt: false
         })
 
+
         this.User.sync().then(() => {
             console.log("Users table created");
         }).catch((error) => {
             console.log("unable to create Users table, ", error)
         })
     }
+
+    
 }

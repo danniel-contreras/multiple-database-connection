@@ -4,7 +4,6 @@ export class DatabaseConnection {
     constructor(database: string) {
         this.databaseName = database
     }
-
     databaseName: string
     sequelize: Sequelize
     /**

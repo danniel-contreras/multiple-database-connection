@@ -1,67 +1,53 @@
-import { UserServices } from '../services/user.services';
-import { Request, Response } from 'express';
-import jwt, { Secret } from "jsonwebtoken"
-import { encrypt,decrypt } from '../utils/bcrypt';
-
-export const SECRET_KEY: Secret = 'your-secret-key-here';
+import { Request, Response } from "express"
+import { User } from "../entities/user.entity"
+import { createUser, findUserByEmail, makeFirstToken } from "../services/common/user.service"
+import { checkPassword } from "../utils/bcrypt"
 
 /**
- * It gets all users from the database
- * @param {Request} req - Request - This is the request object that is passed to the route handler.
+ * It's a function that takes a request and a response, and returns a response with the result of a
+ * database query.
+ * @param {Request} req - Request - The request object
  * @param {Response} res - Response - The response object that will be sent back to the client.
- * @returns The result of the findAllUsers() function.
+ * @returns An object with a property called result.
  */
-export const getAllUsers = async (req: Request, res: Response) => {
-
-    const userService = new UserServices(decrypt(String(req.headers?.company)))
-    try {
-        const result = await userService.findAllUsers()
-        return res.send({ users: result })
-    } catch (error) {
-        return res.send({ error })
-    }
+export const getAllUser = async (req: Request, res: Response) => {
+    const result = await User.findAll()
+    return res.send({ result })
 }
 
 /**
- * It takes a request, and a response, and returns a response
- * @param {Request} req - Request - this is the request object that is passed to the function.
- * @param {Response} res - Response - the response object
- * @returns The result of the findByEmail function.
- */
-export const findUserByEmail = async (req: Request, res: Response) => {
-    const userService = new UserServices(req.body?.dbname)
-    try {
-        const result = await userService.findByEmail(req.body.email)
-        return res.send({ result })
-    } catch (error) {
-        return res.send({ error })
-    }
-}
-
-/**
- * It takes a request, checks if the email and password are correct, and if they are, it returns a
- * token and the user object.
- * @param {Request} req - Request -&gt; The request object
- * @param {Response} res - Response -&gt; this is the response object that is returned to the client
- * @returns {
- *     "accessToken":
- * "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjI1YzY1YzYwYzI0MjAwMjIwMzI4YzgiLC
+ * It takes a request and a response, and returns a response.
+ * @param {Request} req - Request
+ * @param {Response} res - Response
+ * @returns The user object is being returned.
  */
 export const loginUser = async (req: Request, res: Response) => {
-    const userService = new UserServices(req.body?.dbname)
-    try {
-        const result = await userService.findByEmail(req.body.email)
-        if (result) {
-            if (result.password === req.body?.password) {
-                const token = jwt.sign({ _id: result.userId, cmpny: encrypt("another_db") }, SECRET_KEY, { expiresIn: '2 days', })
-                return res.send({ accessToken: token, user: result, message: "Welcome" })
-            } else {
-                return res.send({ message: "Email or password incorrect" })
-            }
+    const { email, password } = req.body
+    const user = await findUserByEmail(email)
+    if (user) {
+        if (await checkPassword(password, user.password)) {
+            return res.send({ user: { username: user.userNames + " " + user.lastNames, user_id: user.idUser }, ok: true, accessToken: makeFirstToken(user.idUser) })
         } else {
-            return res.send({ message: "Email or password incorrect" })
+            return res.send({ ok: false, message: "user email or password incorect" })
         }
+    } else {
+        return res.send({ ok: false, message: "user email or password incorect" })
+    }
+}
+
+/**
+ * It takes a request and a response, and then it tries to create a user with the data from the request
+ * body. If it succeeds, it sends a response with the result. If it fails, it sends a response with the
+ * error
+ * @param {Request} req - Request - This is the request object that is passed to the route handler.
+ * @param {Response} res - Response - This is the response object that will be sent back to the client.
+ * @returns The result of the createUser function.
+ */
+export const saveUser = async (req: Request, res: Response) => {
+    try {
+        const result = await createUser(req.body)
+        return res.send({ ok: true, message: "User created successfully", result })
     } catch (error) {
-        return res.send({ message: "Email or password incorrect", error })
+        return res.send({ ok: false, message: "cannot create user", error })
     }
 }

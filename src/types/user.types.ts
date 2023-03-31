@@ -9,10 +9,11 @@ export interface UserI {
 }
 
 export interface CreateUser {
-    userName: string,
-    userLastname: string,
+    userNames: string,
+    lastNames: string,
     address: string
     phoneNumber: number
     email: string
     password: string
+    idUserType: number
 }
