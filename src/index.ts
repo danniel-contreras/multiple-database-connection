@@ -3,13 +3,14 @@ import express, { Application } from "express";
 import morgan from "morgan"
 import connection from './config/connection';
 import routes from "./routes/router";
+import cors from "cors"
 
 const app: Application = express()
 
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ limit: "50mb" }))
-
+app.use(cors({origin:["http://localhost:5173","http://localhost:5174"]}))
 
 app.use("/", routes)
 

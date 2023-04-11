@@ -3,6 +3,7 @@ import userTypeRoutes from "./user-types.routes"
 import userRoutes from "./user.routes"
 import authRoutes from "./auth.routes"
 import companyRoutes from "./companies.router"
+import pageRoutes from "./pages.routes"
 
 const routes = Router();
 
@@ -15,5 +16,7 @@ routes.use(API_VER + "/users", userRoutes)
 routes.use(API_VER + "/auth", authRoutes)
 
 routes.use(API_VER + "/company", companyRoutes)
+
+routes.use(API_VER + "/pages", pageRoutes)
 
 export default routes;

@@ -44,6 +44,9 @@ export class UserModel {
         })
 
 
+        /* `this.User.sync()` is a Sequelize method that synchronizes the model definition with the
+        database schema. It creates the table in the database if it does not exist and updates the
+        table schema if there are any changes in the model definition. */
         this.User.sync().then(() => {
             console.log("Users table created");
         }).catch((error) => {
