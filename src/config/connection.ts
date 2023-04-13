@@ -5,6 +5,7 @@ import { Company } from "../entities/company.entity";
 import { UserCompany } from "../entities/user-companies";
 import { Pages } from "../entities/pages.entity";
 import { Options } from "../entities/options.entity";
+import { Menu } from "../entities/menu.entity";
 
 const connection = new Sequelize({
     dialect: "mysql",
@@ -14,7 +15,7 @@ const connection = new Sequelize({
     password: "password",
     database: "factura_common",
     logging: true,
-    models: [UserType, User, Company,UserCompany,Pages,Options],
+    models: [UserType, User, Company,UserCompany,Pages,Menu,Options],
 });
 
 export default connection;
