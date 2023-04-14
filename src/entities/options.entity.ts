@@ -2,13 +2,8 @@ import {
   Table,
   Model,
   Column,
-  DataType,
-  ForeignKey,
-  BelongsTo,
-  BelongsToMany,
+  DataType
 } from "sequelize-typescript";
-import { Pages } from "./pages.entity";
-import { Menu } from "./menu.entity";
 
 @Table({
   timestamps: true,
@@ -36,15 +31,9 @@ export class Options extends Model {
   })
   optionIcon!: string;
 
-  @ForeignKey(() => Pages)
-  idPage!: number;
-
-  @BelongsTo(() => Pages)
-  page!: Pages;
-
-  @ForeignKey(() => Menu)
-  idMenu!: Menu;
-
-  @BelongsTo(() => Menu)
-  menu!: Menu;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  path!: string;
 }

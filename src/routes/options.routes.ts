@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import { saveOption } from '../controllers/options.controller';
+import { Router } from "express";
+import { saveOption, getOptions } from "../controllers/options.controller";
 
 const routes = Router();
 
-routes.post("/", saveOption)
-// routes.post("/", savePage)
+routes.post("/", saveOption);
+routes.get("/", getOptions);
 
-export default routes
+export default routes;

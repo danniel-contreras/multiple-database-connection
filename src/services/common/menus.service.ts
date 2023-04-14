@@ -67,3 +67,26 @@ export const get_menu_and_options_by_user = async (id: number) => {
   }
   return {};
 };
+
+export const get_pages_by_user = async (id: number) => {
+  return []
+  // const result = await Menu.findOne({
+  //   include: {
+  //     model: User,
+  //     attributes: { exclude: ["password"] },
+  //     where: { idUser: id },
+  //   },
+  // });
+  // if (result) {
+  //   const options = await get_options_by_menu(result.idMenu);
+  //   if(options.length > 0){
+  //     const data = options.map((d) => {
+  //       return d.page;
+  //     });
+  
+  //     return data;
+  //   }
+  //   return []
+  // }
+  // return [];
+};

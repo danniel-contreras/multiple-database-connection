@@ -5,8 +5,7 @@ import { User } from "../entities/user.entity";
 export interface OptionsI {
   optionName: string;
   optionIcon: string;
-  idPage: number;
-  idMenu: number;
+  path:string
 }
 
 export interface OptionsU {

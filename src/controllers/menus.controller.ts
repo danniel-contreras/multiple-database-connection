@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   get_menu_and_options,
   get_menu_and_options_by_user,
+  get_pages_by_user,
   save_menu,
 } from "../services/common/menus.service";
 
@@ -50,6 +51,15 @@ export const getMenus = async (req: Request, res: Response) => {
 export const getMenusByUser = async (req: Request, res: Response) => {
   try {
     const result = await get_menu_and_options_by_user(Number(req.params.id));
+    return res.send({ ok: true, result });
+  } catch (error) {
+    return res.send({ ok: false, resut: [] });
+  }
+};
+
+export const getPagesByUser = async (req: Request, res: Response) => {
+  try {
+    const result = await get_pages_by_user(Number(req.params.id));
     return res.send({ ok: true, result });
   } catch (error) {
     return res.send({ ok: false, resut: [] });

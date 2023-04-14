@@ -1,5 +1,4 @@
 import { Options } from "../../entities/options.entity";
-import { Pages } from "../../entities/pages.entity";
 import { OptionsI } from "../../types/options.types";
 
 /**
@@ -28,8 +27,12 @@ export const save_options = async (values: OptionsI) => {
  */
 export const get_options_by_menu = async (id: number) => {
   const result = await Options.findAll({
-    where: { idMenu: id },
-    include: { model: Pages },
+    where: { idMenu: id }
   });
   return result;
 };
+
+export const get_options = async()=>{
+  const result = await Options.findAll()
+  return result
+}

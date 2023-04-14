@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { save_options } from "../services/common/options.service";
+import { get_options, save_options } from "../services/common/options.service";
 
 /**
  * This function saves an option and returns a success message or an error message.
@@ -22,5 +22,14 @@ export const saveOption = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return res.send({ ok: true, message: "Cannot create option" });
+  }
+};
+
+export const getOptions = async (_: Request, res: Response) => {
+  try {
+    const result = await get_options();
+    return res.send({ result, ok: true });
+  } catch (error) {
+    return res.send({ ok: false });
   }
 };

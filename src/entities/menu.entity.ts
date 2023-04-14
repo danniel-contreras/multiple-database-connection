@@ -5,11 +5,8 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
-  HasMany,
 } from "sequelize-typescript";
 import { User } from "./user.entity";
-import { Options } from "./options.entity";
-
 @Table({
   timestamps: true,
   tableName: "menus",
@@ -29,7 +26,4 @@ export class Menu extends Model {
 
   @BelongsTo(() => User)
   user!: User;
-
-  @HasMany(() => Options)
-  options: Options[];
 }
