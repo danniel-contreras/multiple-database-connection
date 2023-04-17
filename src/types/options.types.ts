@@ -1,3 +1,4 @@
+import { MenuOptions } from "../entities/menu-option";
 import { Menu } from "../entities/menu.entity";
 import { Options } from "../entities/options.entity";
 import { User } from "../entities/user.entity";
@@ -18,11 +19,11 @@ export interface OptionsU {
   createdAt: string;
 }
 
-export interface MenuOptions {
+export interface MenuOptionsI {
   idMenu: number;
   idUser: number;
   updatedAt: string;
   createdAt: string;
   user: User;
-  options?: Options[];
+  options?: MenuOptions[];
 }

@@ -5,6 +5,7 @@ import authRoutes from "./auth.routes"
 import companyRoutes from "./companies.router"
 import menuRoutes from "./menus.routes"
 import optionRoutes from "./options.routes"
+import optionsMenuRoutes from "./menu-options.routes"
 
 const routes = Router();
 
@@ -22,5 +23,7 @@ routes.use(API_VER + "/company", companyRoutes)
 routes.use(API_VER + "/menu", menuRoutes)
 
 routes.use(API_VER + "/option", optionRoutes)
+
+routes.use(API_VER + "/options-menu",optionsMenuRoutes)
 
 export default routes;

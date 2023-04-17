@@ -1,7 +1,7 @@
 import { Menu } from "../../entities/menu.entity";
 import { User } from "../../entities/user.entity";
-import { MenuOptions } from "../../types/options.types";
-import { get_options_by_menu } from "./options.service";
+import { MenuOptionsI } from "../../types/options.types";
+import { get_options_by_menu, get_options_menu } from "./options.service";
 
 /**
  * This function saves a menu for a specific user.
@@ -28,17 +28,17 @@ export const get_menu_and_options = async () => {
     include: { model: User, attributes: { exclude: ["password"] } },
   });
   if (result.length > 0) {
-    const new_arr: MenuOptions[] = [];
+    const new_arr: MenuOptionsI[] = [];
     for (let i = 0; i < result.length; i++) {
-      const options = await get_options_by_menu(result[i].idMenu);
+      const options = await get_options_menu(result[i].idMenu);
       new_arr.push({
-        idMenu: result[i].idMenu,
+        idMenu:result[i].idMenu,
         idUser: result[i].idUser,
         createdAt: result[i].createdAt,
         updatedAt: result[i].updatedAt,
         user: result[i].user,
-        options,
-      });
+        options
+      })
     }
     return new_arr;
   }
@@ -54,13 +54,9 @@ export const get_menu_and_options_by_user = async (id: number) => {
     },
   });
   if (result) {
-    const options = await get_options_by_menu(result.idMenu);
+    const options = await get_options_menu(result.idMenu);
     const data = {
-      idMenu: result.idMenu,
-      idUser: result.idUser,
-      createdAt: result.createdAt,
-      updatedAt: result.updatedAt,
-      user: result.user,
+      result,
       options,
     };
     return data;
@@ -69,7 +65,7 @@ export const get_menu_and_options_by_user = async (id: number) => {
 };
 
 export const get_pages_by_user = async (id: number) => {
-  return []
+  return [];
   // const result = await Menu.findOne({
   //   include: {
   //     model: User,
@@ -83,7 +79,7 @@ export const get_pages_by_user = async (id: number) => {
   //     const data = options.map((d) => {
   //       return d.page;
   //     });
-  
+
   //     return data;
   //   }
   //   return []
